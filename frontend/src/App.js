@@ -47,7 +47,10 @@ class App extends Component {
     this.state = {
       classes: [],
 
-      showingClass: null
+      showingClass: null,
+
+      isLoggedIn: false,
+      email: ''
     };
 
     this.textBox = null;
@@ -80,6 +83,10 @@ class App extends Component {
     });
   }
 
+  getReviews() {
+
+  }
+
   async verifyLogin() {
     // verify that information was input to the forms
     if(!this.usernameBox.value || !this.passwordBox.value) {
@@ -98,6 +105,19 @@ class App extends Component {
 
     debugger
 
+    if (resp.includes('Bad email/password')) {
+      this.setState({
+        isLoggedIn: false,
+        email: this.usernameBox.value
+      })
+    }
+    else {
+      this.setState({
+        isLoggedIn: true,
+        email: this.usernameBox.value
+      })
+    }
+
 
 
 
@@ -106,8 +126,8 @@ class App extends Component {
       method: 'GET'
     })
 
-    debugger
 
+    debugger
 
 
 
@@ -191,28 +211,9 @@ class App extends Component {
       )
   }
 
-  render() {
-
-    let content;
-    if (this.state.showingClass) {
-      content = this.getClassDetails();
-      console.log('details!', this.state.showingClass, !!this.state.showingClass)
-    }
-    else {
-      content = this.getHomePage();
-      console.log('homepage!')
-    }
-
-
+  getLogInOForm() {
     return (
-      <div className='App'>
-        <Navbar inverse collapseOnSelect>
-          <Navbar.Header>
-            <Navbar.Brand>
-              <a href='#' onClick={this.showClass.bind(this, null)}>Rate a Class</a>
-            </Navbar.Brand>
-            <Navbar.Toggle />
-          </Navbar.Header>
+
           <form className='login-form'>
             <FormControl
               className='login-input'
@@ -235,6 +236,43 @@ class App extends Component {
               </Button>
             </ButtonToolbar>
           </form>
+
+      )
+  }
+
+
+  render() {
+
+    let content;
+    if (this.state.showingClass) {
+      content = this.getClassDetails();
+      console.log('details!', this.state.showingClass, !!this.state.showingClass)
+    }
+    else {
+      content = this.getHomePage();
+      console.log('homepage!')
+    }
+
+
+    let navBarRightSide = null;
+    if (!this.state.isLoggedIn) {
+      navBarRightSide = this.getLogInOForm()
+    }
+    else {
+      navBarRightSide = "You are logged in!"
+    }
+
+
+    return (
+      <div className='App'>
+        <Navbar inverse collapseOnSelect>
+          <Navbar.Header>
+            <Navbar.Brand>
+              <a href='#' onClick={this.showClass.bind(this, null)}>Rate a Class</a>
+            </Navbar.Brand>
+            <Navbar.Toggle />
+          </Navbar.Header>
+          {navBarRightSide}
           <Navbar.Collapse>
             <Nav />
             <Nav pullRight />
