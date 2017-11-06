@@ -63,6 +63,7 @@ class App extends Component {
     this.onSubmit = this.onSubmit.bind(this);
     this.showClass = this.showClass.bind(this);
     this.verifyLogin = this.verifyLogin.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   onSubmit() {
@@ -113,6 +114,7 @@ class App extends Component {
   }
 
   showClass(aClass) {
+    console.log(aClass);
     this.setState({
       showingClass: aClass
     })
@@ -160,7 +162,33 @@ class App extends Component {
   }
 
   getClassDetails() {
-    return null;
+    console.log(this.state.showingClass);
+    let thisClass = this.state.showingClass;
+    
+    return (
+      <span>
+        <div className='class-title'>
+          { thisClass.name }
+        </div>
+        <a href={ thisClass.url } className='class-subject'>
+          { `${thisClass.subject }${ thisClass.classId }` }
+        </a>
+        <div className='class-desc'>
+          { thisClass.desc }
+        </div>
+        <div className='crn-container'>
+          <span className='crn-title'><strong> CRN: </strong></span>
+          <ul className='class-crns-list'>
+            { this.state.showingClass.crns.map((crn) => {
+              return(
+                <li className='class-crn'>{ crn }</li>
+              );
+            })}
+          </ul>
+        </div>
+        <a href="#" className='back-button' onClick={ this.showClass.bind(this, null) }>Back</a>
+      </span>
+      )
   }
 
   render() {
