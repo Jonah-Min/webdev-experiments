@@ -98,8 +98,16 @@ form.login-form {
   display: inline-block;
 }
 
-.container {
+.review-title {
+  font-size: 30px;
+  font-weight: bold;
+}
 
+.review-body {
+  width: 50%;
+  margin: 0 auto;
+  display: block;
+  margin-bottom: 7px;
 }
 
 .results {

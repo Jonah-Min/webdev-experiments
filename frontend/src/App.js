@@ -11,6 +11,7 @@ import request from './request'
 import './bootstrap.css';
 import './bootstrap-theme.css';
 import './App.css';
+import {Socket} from "phoenix"
 
 const classSearchConfig = {
   fields: {
@@ -39,7 +40,6 @@ const classSearchConfig = {
   expand: true,
 };
 
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -57,6 +57,9 @@ class App extends Component {
 
     this.usernameBox = null;
     this.passwordBox = null;
+    
+    
+    this.socket = new Socket(this.getMessage.bind(this));
 
 
     console.log('Loading search index...');
@@ -81,6 +84,10 @@ class App extends Component {
     this.setState({
       classes: classes,
     });
+  }
+ 
+  getMessage() {
+    
   }
 
   getReviews() {
@@ -132,6 +139,11 @@ class App extends Component {
 
 
   }
+
+  getMessage() {
+    
+  }
+
 
   showClass(aClass) {
     console.log(aClass);
@@ -206,7 +218,10 @@ class App extends Component {
             })}
           </ul>
         </div>
-        <a href="#" className='back-button' onClick={ this.showClass.bind(this, null) }>Back</a>
+        <a href="#" className='back-button' onClick={ this.showClass.bind(this, null) }>Back</a><br></br>
+        <div className='review-title'>Leave a Review!</div>
+        <textarea rows="4" cols="50" className='review-body'></textarea>
+        <Button>Add Review!</Button>
       </span>
       )
   }
